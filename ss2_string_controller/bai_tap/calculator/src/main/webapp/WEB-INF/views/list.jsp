@@ -17,8 +17,8 @@
 <h1>Calculator</h1>
 <form method="post" action="/calculator">
   <div class="d-flex">
-    <input type="number" name="number1" placeholder="Enter number 1">
-    <input type="number" name="number2" placeholder="Enter number 1">
+    <input required type="number" name="number1" placeholder="Enter number 1">
+    <input required type="number" name="number2" placeholder="Enter number 1">
   </div>
   <div class="btn-group my-2" role="group" aria-label="Basic example">
     <button type="submit" name="calculator" value="addition" class="btn btn-primary">Addition(+)</button>
