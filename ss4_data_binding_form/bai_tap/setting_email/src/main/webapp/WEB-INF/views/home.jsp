@@ -31,9 +31,9 @@
     </div>
     <div class="d-flex">
         <p>Page size</p>
-        <p>Show </p>
+        <p class="mx-3">Show </p>
         <form:select cssStyle="width: 100px" itemValue="${emailSetting.pageSize}" path="pageSize"
-                     class=" mx-3 form-select"
+                     class="form-select"
                      aria-label="Default select example">
             <form:options items="${pageSize}"/>
         </form:select>

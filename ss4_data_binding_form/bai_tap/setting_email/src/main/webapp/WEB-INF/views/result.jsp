@@ -17,10 +17,10 @@
 <div>
     Spam filter:
     <c:if test="${emailSetting.spamsFilter == true}">
-        <input checked type="checkbox">
+        <input disabled checked type="checkbox">
     </c:if>
     <c:if test="${emailSetting.spamsFilter == false}">
-        <input type="checkbox">
+        <input disabled type="checkbox">
     </c:if>
 </div>
 <p>Signature: ${emailSetting.signature}</p>
