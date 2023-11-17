@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="/layout ::header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/product"><h1>Product Management</h1></a>
+<div class="notify">
+    <div th:if="${success}">
+        <span th:text="${success}"></span>
+    </div>
+</div>
+<a href="/product/create">
+    <button class="my-2 bg-primary">Add new product</button>
+</a>
+<form class="d-flex col-3 my-3" role="search" action="/product/search" method="post">
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="name">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+<table class="table table-striped">
+    <tr>
+        <th>STT</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Description</th>
+        <th>Manufacturer</th>
+        <th>Detail</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="product,status:${productList}">
+        <td th:text="${status.count}"></td>
+        <td th:text="${product.getName()}"></td>
+        <td th:text="${product.getPrice()}"></td>
+        <td th:text="${product.getDescription()}"></td>
+        <td th:text="${product.getManufacturer()}"></td>
+        <td><a th:href="@{/product/detail(id=${product.getId()})}" th:text="Detail"></a></td>
+        <td><a th:href="@{/product/edit(id=${product.getId()})}" th:text="Edit"></a></td>
+        <td><a th:href="@{/product/delete(id=${product.getId()})}" th:text="Delete"></a></td>
+    </tr>
+    <tr th:if="${productList.isEmpty()}">
+        <td th:colspan="8" class="text-danger">Không tìm thấy</td>
+    </tr>
+</table>
+<footer th:replace="/layout::footer">
+</footer>
+</body>
+</html>
