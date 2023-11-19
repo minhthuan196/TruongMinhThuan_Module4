@@ -62,14 +62,14 @@ public class ProductController {
         return "redirect:/product";
     }
 
-    @GetMapping("/delete")
-    public String showFormDelete(@RequestParam int id, Model model) {
-        Product product = productService.displayProductById(id);
-        model.addAttribute("product", product);
-        return "/product/delete";
-    }
+//    @GetMapping("/delete")
+//    public String showFormDelete(@RequestParam int id, Model model) {
+//        Product product = productService.displayProductById(id);
+//        model.addAttribute("product", product);
+//        return "/product/delete";
+//    }
 
-    @PostMapping("/delete")
+    @GetMapping("/delete")
     public String deleteProduct(@RequestParam int id, RedirectAttributes redirectAttributes) {
         productService.deleteProduct(id);
         redirectAttributes.addFlashAttribute("success", "Delete product success!!!");
@@ -80,6 +80,7 @@ public class ProductController {
     public String search(@RequestParam String name, Model model) {
         List<Product> productList = productService.searchProductByName(name);
         model.addAttribute("productList", productList);
+        model.addAttribute("name", name);
         return "/product/list";
     }
 
