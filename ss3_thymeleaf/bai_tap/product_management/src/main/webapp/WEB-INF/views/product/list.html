@@ -41,6 +41,7 @@
         <td>
             <button type="button" class="btn btn-outline-danger text-primary" data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
+                    th:text="Delete"
                     th:onclick="'deleteProduct(\''+${product.getId()}+'\',\''+${product.getName()}+'\')'">
                 <i class="fas fa-trash-alt"></i>
             </button>
