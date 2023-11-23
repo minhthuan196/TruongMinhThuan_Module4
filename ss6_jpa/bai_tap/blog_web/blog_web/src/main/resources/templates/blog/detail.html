@@ -16,6 +16,10 @@
         <label th:text="${blog.name}"></label>
     </div>
     <div class="cus-detail">
+        <label>Category:</label>
+        <label th:text="${blog.categoryBlog.getNameCategory()}"></label>
+    </div>
+    <div class="cus-detail">
         <label>Content:</label>
         <label th:text="${blog.content}"></label>
     </div>

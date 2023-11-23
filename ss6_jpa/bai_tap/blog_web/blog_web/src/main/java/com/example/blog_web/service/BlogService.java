@@ -3,6 +3,8 @@ package com.example.blog_web.service;
 import com.example.blog_web.model.Blog;
 import com.example.blog_web.repository.IBlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +17,11 @@ public class BlogService implements IBlogService {
     @Override
     public List<Blog> displayAllBlog() {
         return blogRepository.findAll();
+    }
+
+    @Override
+    public Page<Blog> displayAllBlog(String name, Pageable pageable) {
+        return blogRepository.search("%" + name + "%", pageable);
     }
 
     @Override
@@ -46,5 +53,20 @@ public class BlogService implements IBlogService {
     @Override
     public List<Blog> searchBlogByName(String name) {
         return blogRepository.findBlogsByNameContaining(name);
+    }
+
+    @Override
+    public List<Blog> findBlogsByCategoryBlog(int id) {
+        return blogRepository.findBlogsByCategoryBlog(id);
+    }
+
+    @Override
+    public Page<Blog> searchByCategory(Pageable pageable, int id) {
+        return  blogRepository.searchByCategory(pageable, id);
+    }
+
+    @Override
+    public Page<Blog> searchByCategoryAndName(String name, Pageable pageable, int id) {
+        return blogRepository.searchByCategoryAndName("%" + name + "%", pageable,id);
     }
 }

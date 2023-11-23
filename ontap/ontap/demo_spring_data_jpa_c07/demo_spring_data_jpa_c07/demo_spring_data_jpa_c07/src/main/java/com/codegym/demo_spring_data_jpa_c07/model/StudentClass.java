@@ -1,28 +1,25 @@
-package com.example.blog_web.model;
+package com.codegym.demo_spring_data_jpa_c07.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Blog {
+public class StudentClass {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @Column(columnDefinition = "text")
-    private String content;
-    @Column(columnDefinition = "Datetime")
-    private String postDate;
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category categoryBlog;
+//
+    @OneToMany(mappedBy = "studentClass")
+    private Set<Student> studentSet;
+
 }

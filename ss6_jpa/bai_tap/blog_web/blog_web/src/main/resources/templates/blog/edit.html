@@ -22,6 +22,12 @@
       <label for="content">Content</label>
       <input style="width: 100%" type="text" id="content" th:field="*{content}"/>
     </div>
+    <div>
+      <select class="form-select" aria-label="Default select example" th:field="*{categoryBlog}">
+        <option th:each="category,status:${categoryList}" th:text="${category.getNameCategory()}"
+                th:value="${category.getId()}"></option>
+      </select>
+    </div>
     <input type="submit" value="Update"/>
   </form>
 </div>
