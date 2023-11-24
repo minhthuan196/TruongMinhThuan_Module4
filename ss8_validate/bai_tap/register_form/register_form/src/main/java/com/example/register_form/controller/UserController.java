@@ -37,12 +37,7 @@ public class UserController {
         }
         BeanUtils.copyProperties(userDto, user);
         userService.saveUser(user);
-        model.addAttribute("name", user.getFirstName() +" "+ user.getLastName());
+        model.addAttribute("name", user.getFirstName() + user.getLastName());
         return "/register/result";
-    }
-    @GetMapping("/edit")
-    public String showFromEdit(Model model) {
-        model.addAttribute("songDto", songDto);
-        return "/songs/create";
     }
 }

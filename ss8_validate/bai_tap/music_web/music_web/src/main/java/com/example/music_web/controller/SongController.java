@@ -50,6 +50,7 @@ public class SongController {
         redirectAttributes.addFlashAttribute("mess", "add song success");
         return "redirect:/song";
     }
+
     @GetMapping("/edit")
     public String showFromEdit(Model model, @RequestParam int id) {
         Song song = songService.findById(id);
@@ -58,7 +59,14 @@ public class SongController {
     }
 
     @PostMapping("/update")
-    public String updateProduct(RedirectAttributes redirectAttributes, Song song) {
+    public String updateProduct(@Valid RedirectAttributes redirectAttributes, Song song, BindingResult bindingResult) {
+        SongDto songDto = new SongDto();
+        BeanUtils.copyProperties(song, songDto);
+        new SongDto().validate(songDto, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "/songs/edit";
+        }
+
         songService.updateSong(song);
         redirectAttributes.addFlashAttribute("mess", "update blog success!!!");
         return "redirect:/song";
