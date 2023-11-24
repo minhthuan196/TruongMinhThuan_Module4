@@ -61,7 +61,7 @@ public class BlogController {
     public String save(RedirectAttributes redirectAttributes, Blog blog) {
         blog.setPostDate(String.valueOf(LocalDateTime.now()));
         blogService.createBlog(blog);
-        redirectAttributes.addFlashAttribute("mess", "add blog success!!!");
+        redirectAttributes.addFlashAttribute("success", "add blog success!!!");
         return "redirect:/blog";
     }
 
@@ -85,14 +85,14 @@ public class BlogController {
     public String updateProduct(RedirectAttributes redirectAttributes, Blog blog) {
         blog.setPostDate(String.valueOf(LocalDateTime.now()));
         blogService.updateBlog(blog);
-        redirectAttributes.addFlashAttribute("mess", "update blog success!!!");
+        redirectAttributes.addFlashAttribute("success", "update blog success!!!");
         return "redirect:/blog";
     }
 
     @GetMapping("/delete")
     public String delete(RedirectAttributes redirectAttributes, @RequestParam int id) {
         blogService.deleteBlog(id);
-        redirectAttributes.addFlashAttribute("mess", "delete blog success!!!");
+        redirectAttributes.addFlashAttribute("success", "delete blog success!!!");
         return "redirect:/blog";
     }
 }
