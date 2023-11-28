@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 public class logger {
     static int count = 0;
 
-    @After("execution(* com.example.borrow_books.controller.BookController(..))")
+    @After("execution(* com.example.borrow_books.controller.BookController.*(..))")
     public void countUser() {
         count++;
-        System.out.println("Number of libraries visited " + count);
+        System.out.println("Number of user visited " + count);
     }
 }

@@ -50,6 +50,7 @@ public class BookController {
         BorrowedCode borrowedCode;
 
         borrowedCode = new BorrowedCode(borrowCode, true, book);
+        borrowService.createBorrow(borrowedCode);
         book.setQuantity(book.getQuantity() - 1);
         bookService.updateBook(book);
         model.addAttribute("borrowCode", borrowCode);
