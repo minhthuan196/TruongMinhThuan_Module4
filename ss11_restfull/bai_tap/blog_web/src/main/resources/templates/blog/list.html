@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+    <script>
+        function displayToast(message, color) {
+            document.getElementById("toastContent").innerHTML = message;
+            document.getElementById("liveToast").style.background = color;
+            let myAlert = document.getElementById('liveToast');//select id of toast
+            let bsAlert = new bootstrap.Toast(myAlert);//inizialize it
+            bsAlert.show();//show it
+        }
+    </script>
+</head>
+<body>
+<div class="position-fixed top-0 end-5 p-3" style="z-index: 11;margin-left: 500px">
+    <div id="liveToast" style="width: 230px; color: white; background:lightgreen ;border-radius:2% 2%;" class="toast"
+         role="dialog" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="30px" height="30px">
+                <g id="surface1_4_">
+                    <path style="fill:#4CAF50;"
+                          d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"/>
+                    <path style="fill:#CCFF90;"
+                          d="M34.602,14.602L21,28.199l-5.602-5.598l-2.797,2.797L21,33.801l16.398-16.402L34.602,14.602z"/>
+                </g>
+            </svg>
+            <span id="toastContent">Nội dung hiển thị</span>
+        </div>
+    </div>
+</div>
+<a href="/blog/create">
+    <button class="my-2 bg-primary">Add new blog</button>
+</a>
+<form class="d-flex col-3 my-3" role="search" action="/blog" method="get">
+    <select name="id">
+        <option value="" th:selected="${category == null}">All Category</option>
+        <option th:if="${category!=null}" th:each="cate:${categoryList}" th:text="${cate.nameCategory}"
+                th:value="${cate.id}" th:selected="${category.nameCategory.equals(cate.nameCategory)}"></option>
+        <option th:if="${category==null}" th:each="cate:${categoryList}" th:text="${cate.nameCategory}"
+                th:value="${cate.id}"></option>
+    </select>
+    <input th:value="${name}" class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+           name="name">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+<table class="table table-striped">
+    <tr>
+        <th>Name</th>
+        <th>Date Post</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="blog,status:${blogPage}">
+        <td>
+            <a style="text-decoration: none" th:href="@{/blog/detail(id=${blog.getId()})}"
+               th:text="${blog.getName()}"></a>
+        </td>
+        <td>
+            <p th:text="${blog.getPostDate()}"></p>
+        </td>
+        <td><a th:href="@{/blog/edit(id=${blog.getId()})}" th:text="Edit"></a></td>
+        <!--        <td><a th:href="@{/product/delete(id=${product.getId()})}" th:text="Delete"></a></td>-->
+        <td>
+            <button type="button" class="btn btn-outline-danger text-primary" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    th:text="Delete"
+                    th:attr="data-id=${blog.getId()}, data-name=${blog.getName()}"
+                    onclick="deleteBlog(this)">
+
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </td>
+    </tr>
+    <tr th:if="${blogPage.isEmpty()}">
+        <td th:colspan="3" class="text-danger">Not found blog</td>
+    </tr>
+</table>
+
+<div th:if="${category!=null}">
+    <a th:if="${blogPage.hasPrevious()}"
+       th:href="@{/blog(page=${blogPage.getNumber()-1},name=${name},id=${category.id})}">Previous</a>
+    <span th:text="${blogPage.number+1}"></span>/
+    <span th:text="${blogPage.totalPages}"></span>
+    <a th:if="${blogPage.hasNext()}"
+       th:href="@{/blog(page=${blogPage.number+1},name=${name},id=${category.id})}">next</a>
+</div>
+<div th:if="${category==null}">
+    <a th:if="${blogPage.hasPrevious()}"
+       th:href="@{/blog(page=${blogPage.getNumber()-1},name=${name})}">Previous</a>
+    <span th:text="${blogPage.number+1}"></span>/
+    <span th:text="${blogPage.totalPages}"></span>
+    <a th:if="${blogPage.hasNext()}"
+       th:href="@{/blog(page=${blogPage.number+1},name=${name})}">next</a>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/blog/delete" method="get">
+                <input hidden="hidden" name="action" value="delete">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-warning" id="exampleModalLabel">Delete blog</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input hidden="hidden" name="id" id="idDelete">
+                    Are you sure want to delete <span id="deleteName"></span> ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--<footer th:replace="layout::footer">-->
+<!--</footer>-->
+<script>
+    function deleteBlog(element) {
+        let id = element.getAttribute('data-id');
+        let name = element.getAttribute('data-name');
+        document.getElementById("deleteName").innerHTML = name;
+        document.getElementById("idDelete").value = id;
+    }
+    function submitForm() {
+        document.getElementById("filterForm").submit();
+    }
+</script>
+<input hidden id="success" th:value="${success}">
+<script th:if="${success}">
+    displayToast(document.getElementById("success").value, "green")
+</script>
+</body>
+</html>

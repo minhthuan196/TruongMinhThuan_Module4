@@ -50,7 +50,7 @@
       <th>Price</th>
       <th>Delete</th>
     </tr>
-    <tr th:each="product: ${cart.products}" th:if="${product.getValue()!=0}">
+    <tr th:each="product: ${cart.products}">
       <td th:text="${product.getKey().name}"></td>
       <td>
         <img style="width: 100px" th:src="${product.getKey().image}">
