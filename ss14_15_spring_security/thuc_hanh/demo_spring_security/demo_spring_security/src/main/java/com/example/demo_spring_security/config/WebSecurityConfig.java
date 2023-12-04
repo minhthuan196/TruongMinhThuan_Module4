@@ -32,13 +32,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return bCryptPasswordEncoder;
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // Sét đặt dịch vụ để tìm kiếm User trong Database.
         // Và sét đặt PasswordEncoder.
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-
     }
 
     @Override

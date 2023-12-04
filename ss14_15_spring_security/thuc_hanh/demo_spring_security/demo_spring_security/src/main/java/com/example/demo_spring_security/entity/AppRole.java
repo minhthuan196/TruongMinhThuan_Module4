@@ -1,6 +1,8 @@
 package com.example.demo_spring_security.entity;
 
-import jakarta.persistence.*;
+
+
+import javax.persistence.*;
 
 
 @Entity
